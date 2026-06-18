@@ -3,28 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NeuroCatalyst™ — Access Gateway</title>
-  <meta name="description" content="NeuroCatalyst™ — 9 engines. One architecture. Access by request. Inventor: Haley Ann Bird." />
+  <title>NeuroCatalyst™</title>
+  <meta name="description" content="NeuroCatalyst™ — AI architecture by Haley Ann Bird. Access by request." />
   <meta property="og:title" content="NeuroCatalyst™" />
   <meta property="og:description" content="9 engines. One architecture. Access by request." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #080810;
-      --surface: #0e0e1a;
-      --border: rgba(255,255,255,0.06);
-      --accent: #7b5ea7;
-      --accent-dim: rgba(123,94,167,0.15);
-      --accent-glow: rgba(123,94,167,0.35);
-      --text: #e8e8f0;
-      --text-muted: rgba(232,232,240,0.45);
-      --text-faint: rgba(232,232,240,0.2);
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'Raleway', sans-serif;
+      --bg:           #07070f;
+      --surface:      #111120;
+      --border:       rgba(255,255,255,0.09);
+      --accent:       #a78bfa;
+      --accent-soft:  rgba(167,139,250,0.12);
+      --accent-glow:  rgba(167,139,250,0.4);
+      --white:        #ffffff;
+      --text:         rgba(255,255,255,0.88);
+      --muted:        rgba(255,255,255,0.52);
+      --faint:        rgba(255,255,255,0.22);
+      --mono:         'JetBrains Mono', monospace;
+      --sans:         'Raleway', sans-serif;
+      --radius:       6px;
     }
 
     html { scroll-behavior: smooth; }
@@ -35,295 +37,472 @@
       font-family: var(--sans);
       min-height: 100vh;
       overflow-x: hidden;
-      position: relative;
     }
 
-    /* ── ambient blob ── */
-    .blob {
+    /* ── ambient glow ── */
+    .glow {
       position: fixed;
-      top: -20vh;
+      top: -30vh;
       left: 50%;
       transform: translateX(-50%);
-      width: 80vw;
-      height: 80vw;
-      max-width: 900px;
-      max-height: 900px;
-      background: radial-gradient(ellipse at center, rgba(123,94,167,0.18) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(60px);
-      animation: pulse 8s ease-in-out infinite;
+      width: 120vw;
+      height: 100vh;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(167,139,250,0.22) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
+      animation: breathe 7s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    @keyframes breathe {
+      0%,100% { opacity: .7; }
+      50%      { opacity: 1; }
     }
 
-    /* ── layout ── */
+    /* ── page shell ── */
     .page {
       position: relative;
       z-index: 1;
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
-      padding: 15vh 2rem 10vh;
+      padding: 13vh 2rem 10vh;
     }
 
-    /* ── header ── */
-    .eyebrow {
+    /* ── hero ── */
+    .kicker {
       font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
+      font-size: .7rem;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 2rem;
+      margin-bottom: 1.6rem;
       opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
+      animation: rise .7s .1s forwards;
     }
 
     h1 {
-      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-size: clamp(3.2rem, 10vw, 6.5rem);
       font-weight: 900;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      margin-bottom: 1.25rem;
+      letter-spacing: -.03em;
+      line-height: .95;
+      color: var(--white);
+      margin-bottom: 1.4rem;
       opacity: 0;
-      animation: fadeUp 0.8s 0.4s forwards;
+      animation: rise .7s .25s forwards;
     }
 
-    h1 span {
-      display: block;
-      font-size: 0.3em;
-      font-weight: 200;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 0.5em;
+    .hero-sub {
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.65;
+      max-width: 52ch;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: rise .7s .4s forwards;
     }
 
-    .tagline {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 4rem;
+    .hero-sub strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    /* ── CTA row ── */
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 5rem;
       opacity: 0;
-      animation: fadeUp 0.8s 0.6s forwards;
+      animation: rise .7s .55s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: 1rem 2rem;
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--radius);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s, box-shadow .18s;
+      letter-spacing: .01em;
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #07070f;
+      box-shadow: 0 0 0 rgba(167,139,250,0);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 8px 32px var(--accent-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     /* ── divider ── */
-    .rule {
+    hr {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 3rem 0;
+      margin: 0 0 4rem;
     }
 
-    /* ── body copy ── */
-    .section {
+    /* ── three-card grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 4.5rem;
       opacity: 0;
-      animation: fadeUp 0.8s forwards;
-      margin-bottom: 3rem;
+      animation: rise .7s .7s forwards;
     }
-    .section:nth-child(4) { animation-delay: 0.8s; }
-    .section:nth-child(5) { animation-delay: 1.0s; }
-    .section:nth-child(6) { animation-delay: 1.2s; }
-    .section:nth-child(7) { animation-delay: 1.4s; }
+
+    .card {
+      background: var(--surface);
+      padding: 1.75rem 1.5rem;
+      transition: background .2s;
+    }
+    .card:hover { background: #161628; }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: .9rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+
+    .card-body {
+      font-size: .875rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── engine list ── */
+    .engines-section {
+      margin-bottom: 4.5rem;
+      opacity: 0;
+      animation: rise .7s .85s forwards;
+    }
 
     .section-label {
       font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
+      font-size: .65rem;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
-    p {
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.8;
-      color: var(--text-muted);
-      max-width: 58ch;
-    }
-
-    p + p { margin-top: 1rem; }
-
-    /* ── redacted list ── */
-    .redacted-list {
+    .engine-list {
       list-style: none;
-      margin-top: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
     }
-    .redacted-list li {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      padding: 0.6rem 0;
-      border-bottom: 1px solid var(--border);
+
+    .engine-list li {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: .95rem;
+      transition: background .15s;
     }
-    .redacted-list li::before {
-      content: '██';
-      color: var(--accent);
-      font-size: 0.5rem;
-      letter-spacing: -0.1em;
+    .engine-list li:last-child { border-bottom: none; }
+    .engine-list li:hover { background: var(--accent-soft); }
+
+    .engine-name {
+      font-weight: 600;
+      color: var(--white);
+    }
+    .engine-desc {
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: .15rem;
+    }
+
+    .engine-badge {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .3rem .7rem;
+      border-radius: 100px;
       flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    .badge-nda {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(167,139,250,0.25);
+    }
+    .badge-locked {
+      background: rgba(255,255,255,.04);
+      color: var(--faint);
+      border: 1px solid var(--border);
     }
 
     /* ── access block ── */
-    .access-block {
+    .access-section {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left: 2px solid var(--accent);
-      padding: 2rem;
-      margin-top: 1.5rem;
+      border-top: 2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      margin-bottom: 4.5rem;
+      opacity: 0;
+      animation: rise .7s 1s forwards;
     }
 
-    .access-block .mono-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-faint);
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+    .access-section h2 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: .75rem;
     }
 
-    .access-block .email-line {
-      font-family: var(--mono);
-      font-size: 0.95rem;
+    .access-section p {
+      font-size: 1rem;
+      font-weight: 300;
       color: var(--text);
-      margin-bottom: 0.3rem;
+      line-height: 1.7;
+      max-width: 52ch;
+      margin-bottom: 1.75rem;
     }
 
-    .access-block .subject-line {
+    .email-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      background: rgba(167,139,250,.08);
+      border: 1px solid rgba(167,139,250,.2);
+      border-radius: var(--radius);
+      padding: .75rem 1.25rem;
       font-family: var(--mono);
-      font-size: 0.8rem;
+      font-size: .85rem;
       color: var(--accent);
+      margin-bottom: 1.5rem;
     }
 
-    .cta-btn {
-      display: inline-block;
-      margin-top: 1.75rem;
-      padding: 0.85rem 2.25rem;
-      background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    /* ── about strip ── */
+    .about {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4rem;
+      opacity: 0;
+      animation: rise .7s 1.15s forwards;
     }
-    .cta-btn:hover {
-      background: var(--accent);
-      color: var(--bg);
-      box-shadow: 0 0 30px var(--accent-glow);
+
+    .about-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .about-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .3rem;
+    }
+
+    .about-role {
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 50ch;
     }
 
     /* ── footer ── */
     footer {
-      margin-top: 6rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
       opacity: 0;
-      animation: fadeUp 0.8s 1.6s forwards;
+      animation: rise .7s 1.3s forwards;
     }
 
     footer p {
       font-family: var(--mono);
-      font-size: 0.6rem;
-      color: var(--text-faint);
+      font-size: .6rem;
+      color: var(--faint);
       line-height: 1.8;
-      max-width: 100%;
     }
 
     footer a {
+      font-family: var(--mono);
+      font-size: .65rem;
       color: var(--accent);
       text-decoration: none;
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
+      letter-spacing: .08em;
     }
     footer a:hover { text-decoration: underline; }
 
-    /* ── animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
+    /* ── animation ── */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── mobile ── */
-    @media (max-width: 600px) {
-      .page { padding: 12vh 1.25rem 8vh; }
-      .access-block { padding: 1.25rem; }
+    @media (max-width: 580px) {
+      .page { padding: 10vh 1.25rem 8vh; }
+      .cta-row { flex-direction: column; }
+      .btn { justify-content: center; }
+      .access-section { padding: 1.75rem 1.25rem; }
+      .about { flex-direction: column; gap: 1rem; }
       footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-  <div class="blob"></div>
+  <div class="glow"></div>
 
   <main class="page">
 
-    <p class="eyebrow">Access Gateway &nbsp;/&nbsp; Restricted Portfolio</p>
+    <p class="kicker">Private AI Architecture &nbsp;·&nbsp; Est. 2025</p>
 
-    <h1>
-      NeuroCatalyst™
-      <span>by Haley Ann Bird</span>
-    </h1>
+    <h1>NeuroCatalyst™</h1>
 
-    <p class="tagline">9 engines &nbsp;·&nbsp; one architecture &nbsp;·&nbsp; one inventor &nbsp;·&nbsp; access by request</p>
+    <p class="hero-sub">
+      A privately held AI system built by <strong>one person</strong>.
+      Nine engines. One unified architecture.
+      <strong>None of it is public — yet.</strong>
+    </p>
 
-    <hr class="rule" />
-
-    <div class="section">
-      <p class="section-label">What this is</p>
-      <p>NeuroCatalyst™ is a privately held AI architecture built by a single inventor. Nine distinct engines — each operational, each patent-pending, each designed to function as a unified intelligence system.</p>
-      <p>The work is real. The documentation is complete. None of it is public.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:haley@neurocatalyst.ai?subject=[ACCESS REQUEST] NeuroCatalyst™">
+        → &nbsp;Request Access
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/sENZ5hFx" target="_blank">
+        View GitHub Profile
+      </a>
     </div>
 
-    <div class="section">
-      <p class="section-label">What exists behind this door</p>
-      <ul class="redacted-list">
-        <li>Context Stream Engine™ — persistent contextual memory architecture</li>
-        <li>Personal Media Memory™ — multimodal recall and indexing system</li>
-        <li>CinematicAI™ — narrative-aware media intelligence layer</li>
-        <li>SIOS™ — self-diminishing AI operating system</li>
-        <li>Sourcetrace™ — provenance and attribution engine</li>
-        <li>+ 4 additional engines &nbsp;[NDA required]</li>
+    <hr />
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">9 Distinct Engines</div>
+        <div class="card-body">Each one patent-pending. Each one operational. Designed to work as one.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">NDA Protected</div>
+        <div class="card-body">Full documentation, prototypes, and data room available under a signed mutual NDA.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Built Solo</div>
+        <div class="card-body">No team. No institution. No funding. Architecture, IP, and prototypes — one inventor.</div>
+      </div>
+    </div>
+
+    <div class="engines-section">
+      <p class="section-label">The Architecture — partial reveal</p>
+      <ul class="engine-list">
+        <li>
+          <div>
+            <div class="engine-name">Context Stream Engine™</div>
+            <div class="engine-desc">Persistent contextual memory across sessions</div>
+          </div>
+          <span class="engine-badge badge-nda">NDA</span>
+        </li>
+        <li>
+          <div>
+            <div class="engine-name">SIOS™</div>
+            <div class="engine-desc">Self-improving AI operating system</div>
+          </div>
+          <span class="engine-badge badge-nda">NDA</span>
+        </li>
+        <li>
+          <div>
+            <div class="engine-name">Sourcetrace™</div>
+            <div class="engine-desc">AI provenance and attribution engine</div>
+          </div>
+          <span class="engine-badge badge-nda">NDA</span>
+        </li>
+        <li>
+          <div>
+            <div class="engine-name">CinematicAI™</div>
+            <div class="engine-desc">Narrative-aware media intelligence layer</div>
+          </div>
+          <span class="engine-badge badge-nda">NDA</span>
+        </li>
+        <li>
+          <div>
+            <div class="engine-name">+ 5 additional engines</div>
+            <div class="engine-desc">Details available under NDA only</div>
+          </div>
+          <span class="engine-badge badge-locked">🔒 Locked</span>
+        </li>
       </ul>
     </div>
 
-    <div class="section">
-      <p class="section-label">Access protocol</p>
-      <p>Access requires a signed NDA and a brief introduction. That's it. No credentials. No pitch deck. Just honesty about who you are and why you're here.</p>
-      <div class="access-block">
-        <p class="mono-label">Send to</p>
-        <p class="email-line">haley@neurocatalyst.ai</p>
-        <p class="mono-label" style="margin-top:1rem;">Subject line</p>
-        <p class="subject-line">[ACCESS REQUEST] NeuroCatalyst™</p>
+    <div class="access-section">
+      <h2>Want in?</h2>
+      <p>Send an email. Sign an NDA. That’s it. No pitch required — just tell me who you are and why you’re here.</p>
+      <div class="email-pill">
+        <span>✉️</span>
+        <span>haley@neurocatalyst.ai</span>
       </div>
-      <a class="cta-btn" href="mailto:haley@neurocatalyst.ai?subject=[ACCESS REQUEST] NeuroCatalyst™">Request Access →</a>
+      <div class="cta-row" style="margin-bottom:0">
+        <a class="btn btn-primary" href="mailto:haley@neurocatalyst.ai?subject=[ACCESS REQUEST] NeuroCatalyst™">
+          → &nbsp;Request Access Now
+        </a>
+      </div>
     </div>
 
-    <div class="section">
-      <p class="section-label">The inventor</p>
-      <p>Haley Ann Bird built NeuroCatalyst™ alone — the architecture, the IP strategy, the prototypes, the documentation. No team. No funding. No institution.</p>
-      <p>The door is open to the right people.</p>
+    <div class="about">
+      <div class="about-avatar">H</div>
+      <div>
+        <div class="about-name">Haley Ann Bird</div>
+        <div class="about-role">Independent AI inventor and systems architect. Built NeuroCatalyst™ alone — architecture, IP strategy, prototypes, documentation. The door is open to the right people.</div>
+      </div>
     </div>
 
     <footer>
       <p>
         © 2026 Haley Ann Bird &nbsp;·&nbsp; NeuroCatalyst™ is a trademark of Haley Ann Bird<br />
-        All architecture and methods are proprietary and patent-pending<br />
-        Unauthorized reproduction is prohibited
+        All systems and methods are proprietary and patent-pending
       </p>
       <a href="https://github.com/sENZ5hFx" target="_blank">github.com/sENZ5hFx →</a>
     </footer>
