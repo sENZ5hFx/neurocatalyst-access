@@ -53,7 +53,7 @@ Access to NeuroCatalyst™ architecture, documentation, prototypes, and data roo
 That's it. No pitch deck required. No credentials required. Just honesty.
 
 ```
-To:      haley@neurocatalyst.ai
+To:      heyhaleybird@gmail.com
 Subject: [ACCESS REQUEST] NeuroCatalyst™
 ```
 
