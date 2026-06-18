@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroCatalyst™ — Access Gateway</title>
+  <meta name="description" content="NeuroCatalyst™ — 9 engines. One architecture. Access by request. Inventor: Haley Ann Bird." />
+  <meta property="og:title" content="NeuroCatalyst™" />
+  <meta property="og:description" content="9 engines. One architecture. Access by request." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080810;
+      --surface: #0e0e1a;
+      --border: rgba(255,255,255,0.06);
+      --accent: #7b5ea7;
+      --accent-dim: rgba(123,94,167,0.15);
+      --accent-glow: rgba(123,94,167,0.35);
+      --text: #e8e8f0;
+      --text-muted: rgba(232,232,240,0.45);
+      --text-faint: rgba(232,232,240,0.2);
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Raleway', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── ambient blob ── */
+    .blob {
+      position: fixed;
+      top: -20vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 80vw;
+      max-width: 900px;
+      max-height: 900px;
+      background: radial-gradient(ellipse at center, rgba(123,94,167,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: pulse 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    }
+
+    /* ── layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 15vh 2rem 10vh;
+    }
+
+    /* ── header ── */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    h1 span {
+      display: block;
+      font-size: 0.3em;
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.5em;
+    }
+
+    .tagline {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    /* ── divider ── */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* ── body copy ── */
+    .section {
+      opacity: 0;
+      animation: fadeUp 0.8s forwards;
+      margin-bottom: 3rem;
+    }
+    .section:nth-child(4) { animation-delay: 0.8s; }
+    .section:nth-child(5) { animation-delay: 1.0s; }
+    .section:nth-child(6) { animation-delay: 1.2s; }
+    .section:nth-child(7) { animation-delay: 1.4s; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 58ch;
+    }
+
+    p + p { margin-top: 1rem; }
+
+    /* ── redacted list ── */
+    .redacted-list {
+      list-style: none;
+      margin-top: 1.25rem;
+    }
+    .redacted-list li {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .redacted-list li::before {
+      content: '██';
+      color: var(--accent);
+      font-size: 0.5rem;
+      letter-spacing: -0.1em;
+      flex-shrink: 0;
+    }
+
+    /* ── access block ── */
+    .access-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .access-block .mono-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .access-block .email-line {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .access-block .subject-line {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .cta-btn {
+      display: inline-block;
+      margin-top: 1.75rem;
+      padding: 0.85rem 2.25rem;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    /* ── footer ── */
+    footer {
+      margin-top: 6rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.6s forwards;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--text-faint);
+      line-height: 1.8;
+      max-width: 100%;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── mobile ── */
+    @media (max-width: 600px) {
+      .page { padding: 12vh 1.25rem 8vh; }
+      .access-block { padding: 1.25rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob"></div>
+
+  <main class="page">
+
+    <p class="eyebrow">Access Gateway &nbsp;/&nbsp; Restricted Portfolio</p>
+
+    <h1>
+      NeuroCatalyst™
+      <span>by Haley Ann Bird</span>
+    </h1>
+
+    <p class="tagline">9 engines &nbsp;·&nbsp; one architecture &nbsp;·&nbsp; one inventor &nbsp;·&nbsp; access by request</p>
+
+    <hr class="rule" />
+
+    <div class="section">
+      <p class="section-label">What this is</p>
+      <p>NeuroCatalyst™ is a privately held AI architecture built by a single inventor. Nine distinct engines — each operational, each patent-pending, each designed to function as a unified intelligence system.</p>
+      <p>The work is real. The documentation is complete. None of it is public.</p>
+    </div>
+
+    <div class="section">
+      <p class="section-label">What exists behind this door</p>
+      <ul class="redacted-list">
+        <li>Context Stream Engine™ — persistent contextual memory architecture</li>
+        <li>Personal Media Memory™ — multimodal recall and indexing system</li>
+        <li>CinematicAI™ — narrative-aware media intelligence layer</li>
+        <li>SIOS™ — self-diminishing AI operating system</li>
+        <li>Sourcetrace™ — provenance and attribution engine</li>
+        <li>+ 4 additional engines &nbsp;[NDA required]</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="section-label">Access protocol</p>
+      <p>Access requires a signed NDA and a brief introduction. That's it. No credentials. No pitch deck. Just honesty about who you are and why you're here.</p>
+      <div class="access-block">
+        <p class="mono-label">Send to</p>
+        <p class="email-line">haley@neurocatalyst.ai</p>
+        <p class="mono-label" style="margin-top:1rem;">Subject line</p>
+        <p class="subject-line">[ACCESS REQUEST] NeuroCatalyst™</p>
+      </div>
+      <a class="cta-btn" href="mailto:haley@neurocatalyst.ai?subject=[ACCESS REQUEST] NeuroCatalyst™">Request Access →</a>
+    </div>
+
+    <div class="section">
+      <p class="section-label">The inventor</p>
+      <p>Haley Ann Bird built NeuroCatalyst™ alone — the architecture, the IP strategy, the prototypes, the documentation. No team. No funding. No institution.</p>
+      <p>The door is open to the right people.</p>
+    </div>
+
+    <footer>
+      <p>
+        © 2026 Haley Ann Bird &nbsp;·&nbsp; NeuroCatalyst™ is a trademark of Haley Ann Bird<br />
+        All architecture and methods are proprietary and patent-pending<br />
+        Unauthorized reproduction is prohibited
+      </p>
+      <a href="https://github.com/sENZ5hFx" target="_blank">github.com/sENZ5hFx →</a>
+    </footer>
+
+  </main>
+</body>
+</html>
